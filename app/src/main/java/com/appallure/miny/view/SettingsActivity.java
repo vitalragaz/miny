@@ -20,7 +20,7 @@ import com.appallure.miny.R;
 
 public class SettingsActivity extends AppCompatActivity {
 
-    TextView setDefaultLauncher, enableDoubleTap, select1, select2, select3, select4;
+    TextView setDefaultLauncher, select1, select2, select3, select4;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +32,6 @@ public class SettingsActivity extends AppCompatActivity {
         setContentView(R.layout.settings_activity);
 
         setDefaultLauncher = findViewById(R.id.tv_set_default_launcher);
-        enableDoubleTap = findViewById(R.id.tv_enable_double_tap);
         select1 = findViewById(R.id.tv_select_1);
         select2 = findViewById(R.id.tv_select_2);
         select3 = findViewById(R.id.tv_select_3);
@@ -43,9 +42,6 @@ public class SettingsActivity extends AppCompatActivity {
         select3.setOnClickListener(listener);
         select4.setOnClickListener(listener);
 
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.P) {
-            enableDoubleTap.setVisibility(View.GONE);
-        }
 
         setDefaultLauncher.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,14 +57,6 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
 
-        enableDoubleTap.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getBaseContext(), "Enable miny accessibility service", Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS);
-                startActivity(intent);
-            }
-        });
 
     }
 

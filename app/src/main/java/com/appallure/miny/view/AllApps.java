@@ -112,7 +112,7 @@ public class AllApps extends Fragment implements AppListOnClickListener, PageCha
             try {
                 getContext().startActivity(mIntent);
                 MainActivity mainActivity = (MainActivity) getActivity();
-                mainActivity.viewPager.setCurrentItem(0, true);
+                mainActivity.viewPager.setCurrentItem(0, false);
             } catch (ActivityNotFoundException err) {
                 Toast t = Toast.makeText(getContext().getApplicationContext(), "App was not found!", Toast.LENGTH_SHORT);
                 t.show();

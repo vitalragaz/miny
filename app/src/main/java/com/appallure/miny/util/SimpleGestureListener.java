@@ -1,6 +1,7 @@
 package com.appallure.miny.util;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.util.Log;
 import android.view.GestureDetector;
@@ -17,6 +18,8 @@ import androidx.fragment.app.FragmentActivity;
 import com.appallure.miny.MainActivity;
 import com.appallure.miny.R;
 import com.appallure.miny.service.ScreenOffService;
+import com.appallure.miny.view.Home;
+import com.appallure.miny.view.SettingsActivity;
 
 public class SimpleGestureListener extends GestureDetector.SimpleOnGestureListener {
     private Context context;
@@ -33,15 +36,8 @@ public class SimpleGestureListener extends GestureDetector.SimpleOnGestureListen
     @Override
     public boolean onDoubleTap(MotionEvent e) {
         Log.i("doubletap", "doubletapped");
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            if(ScreenOffService.instance != null){
-                ScreenOffService.instance.turnScreenOff();
-            } else {
-                Toast.makeText(context, "Enable accessibility service miny from accessibility menu", Toast.LENGTH_LONG).show();
-            }
-        }else {
-            Toast.makeText(context, "Double tap to screen off is only available for Android P and above", Toast.LENGTH_LONG).show();
-        }
+        final Intent settingsIntent = new Intent(context, SettingsActivity.class);
+        context.startActivity(settingsIntent);
         return true;
     }
 }

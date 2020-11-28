@@ -1,11 +1,15 @@
 package com.appallure.miny.view;
 
 import android.content.ActivityNotFoundException;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.gesture.Gesture;
+import android.os.BatteryManager;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -38,9 +42,19 @@ public class Home extends Fragment {
     String shortcut3PackageName, shortcut3AppName;
     String shortcut4PackageName, shortcut4AppName;
 
-    ImageView settingsButton, refresh, swipe;
+    ImageView swipe;
 
     private static Home instance;
+
+
+    private TextView batteryPercentage;
+    private BroadcastReceiver mBatInfoReceiver = new BroadcastReceiver(){
+        @Override
+        public void onReceive(Context ctxt, Intent intent) {
+            int level = intent.getIntExtra(BatteryManager.EXTRA_LEVEL, 0);
+            batteryPercentage.setText(String.valueOf(level) + "%");
+        }
+    };
 
     @Override
     public void onResume() {
@@ -64,8 +78,6 @@ public class Home extends Fragment {
         shortcut3 = view.findViewById(R.id.shortcut3);
         shortcut4 = view.findViewById(R.id.shortcut4);
         setDefaultLauncher = view.findViewById(R.id.tv_set_default_launcher);
-        settingsButton = view.findViewById(R.id.iv_settings);
-        refresh = view.findViewById(R.id.iv_refresh);
         swipe = view.findViewById(R.id.iv_swipe);
 
         shortcut1.setOnClickListener(clickListener);
@@ -78,16 +90,16 @@ public class Home extends Fragment {
         shortcut3.setOnLongClickListener(longClickListener);
         shortcut4.setOnLongClickListener(longClickListener);
 
+
+        batteryPercentage = (TextView) view.findViewById(R.id.batteryPercentage);
+        getActivity().registerReceiver(this.mBatInfoReceiver, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
+
+
         setUpShortcuts();
 
-        settingsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getActivity(), SettingsActivity.class));
-            }
-        });
 
-        refresh.setOnClickListener(new View.OnClickListener() {
+
+       /* refresh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 setUpShortcuts();
@@ -95,7 +107,7 @@ public class Home extends Fragment {
                 AppListUtil.refreshAppList(getContext());
             }
         });
-
+*/
         swipe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
